@@ -41,5 +41,6 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = ItemsAdapter()
         recyclerView.adapter = adapter
+        button = findViewById(R.id.generateButton)
     }
 }
