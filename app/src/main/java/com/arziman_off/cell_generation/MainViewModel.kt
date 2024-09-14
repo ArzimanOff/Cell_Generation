@@ -20,6 +20,10 @@ class MainViewModel : ViewModel() {
     val items: MutableLiveData<MutableList<Int>> = MutableLiveData(mutableListOf())
 
 
+    fun deleteAll() {
+        items.postValue(mutableListOf())
+    }
+
     fun generateAndAddItem() {
         val newItem = if (random.nextBoolean()) DEAD_CELL else LIVING_CELL
         items.value?.add(newItem)
@@ -44,7 +48,6 @@ class MainViewModel : ViewModel() {
 
             // Удаляем последнюю LIFE после трех DEAD_CELL
             val lastIndex = items.value?.lastIndexOf(LIFE)
-
             if (lastIndex != null && lastIndex != -1) {
                 items.value?.removeAt(lastIndex)
             }
