@@ -13,13 +13,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ItemsAdapter
-    private lateinit var button: MaterialButton
+    private lateinit var generateButton: MaterialButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        initViews()
+        initViews();
         setEventListeners()
         observeViewModel()
     }
@@ -27,11 +27,12 @@ class MainActivity : AppCompatActivity() {
     private fun observeViewModel() {
         mainViewModel.items.observe(this, Observer { items ->
             adapter.submitList(items.toList())
+            recyclerView.scrollToPosition(adapter.itemCount - 1)
         })
     }
 
     private fun setEventListeners() {
-        button.setOnClickListener {
+        generateButton.setOnClickListener {
             mainViewModel.generateAndAddItem()
         }
     }
@@ -41,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = ItemsAdapter()
         recyclerView.adapter = adapter
-        button = findViewById(R.id.generateButton)
+
+        generateButton = findViewById(R.id.generateButton)
     }
 }
