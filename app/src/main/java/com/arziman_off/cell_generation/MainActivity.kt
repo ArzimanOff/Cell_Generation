@@ -1,20 +1,45 @@
 package com.arziman_off.cell_generation
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
 
 class MainActivity : AppCompatActivity() {
+    private val mainViewModel : MainViewModel by viewModels()
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: ItemsAdapter
+    private lateinit var button: MaterialButton
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        initViews()
+        setEventListeners()
+        observeViewModel()
+    }
+
+    private fun observeViewModel() {
+        mainViewModel.items.observe(this, Observer { items ->
+            adapter.submitList(items.toList())
+        })
+    }
+
+    private fun setEventListeners() {
+        button.setOnClickListener {
+            mainViewModel.generateAndAddItem()
         }
+    }
+
+    private fun initViews() {
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        adapter = ItemsAdapter()
+        recyclerView.adapter = adapter
     }
 }
