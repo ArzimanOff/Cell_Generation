@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -26,6 +27,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var deleteAllCellsBtn: ImageView
     private lateinit var emptyListPlaceholder: LinearLayout
     private lateinit var placeholderAnim: LottieAnimationView
+
+    private lateinit var tv_live_cells_cnt: TextView
+    private lateinit var tv_dead_cells_cnt: TextView
+    private lateinit var tv_new_life_cnt: TextView
+    private lateinit var tv_dead_life_cnt: TextView
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +57,13 @@ class MainActivity : AppCompatActivity() {
             }
             adapter.submitList(items.toList())
             recyclerView.scrollToPosition(adapter.itemCount - 1)
+        })
+
+        mainViewModel.itemTypesCounter.observe(this, Observer {
+            tv_live_cells_cnt.text = (it[MainViewModel.LIVING_CELL] ?: 0).toString()
+            tv_dead_cells_cnt.text = (it[MainViewModel.DEAD_CELL] ?: 0).toString()
+            tv_new_life_cnt.text = (it[MainViewModel.LIFE] ?: 0).toString()
+            tv_dead_life_cnt.text = (it[MainViewModel.DEAD_LIFE] ?: 0).toString()
         })
     }
 
@@ -77,6 +92,11 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = ItemsAdapter()
         recyclerView.adapter = adapter
+
+        tv_live_cells_cnt = findViewById(R.id.tv_live_cells_cnt)
+        tv_dead_cells_cnt = findViewById(R.id.tv_dead_cells_cnt)
+        tv_new_life_cnt = findViewById(R.id.tv_new_life_cnt)
+        tv_dead_life_cnt = findViewById(R.id.tv_dead_life_cnt)
 
         generateButton = findViewById(R.id.generateButton)
         deleteAllCellsBtn = findViewById(R.id.deleteAllCellsBtn)
