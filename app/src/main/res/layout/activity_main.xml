@@ -36,6 +36,8 @@
         app:iconPadding="16dp"
         app:iconGravity="textStart"
 
+        android:textColor="@color/white"
+        app:iconTint="@color/white"
         app:cornerRadius="16sp"
         android:backgroundTint="@color/btn_generate_color"
 
