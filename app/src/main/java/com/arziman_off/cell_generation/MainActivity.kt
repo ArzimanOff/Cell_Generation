@@ -1,10 +1,8 @@
 package com.arziman_off.cell_generation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -56,8 +54,11 @@ class MainActivity : AppCompatActivity() {
                 emptyListPlaceholder?.visibility = View.GONE
                 placeholderAnim?.pauseAnimation()
             }
-            adapter.submitList(items.toList())
-            recyclerView?.scrollToPosition(adapter.itemCount - 1)
+            adapter.submitList(items.toList()) {
+                recyclerView?.post {
+                    recyclerView?.scrollToPosition(adapter.itemCount - 1)
+                }
+            }
         })
 
         mainViewModel.itemTypesCounter.observe(this, Observer {

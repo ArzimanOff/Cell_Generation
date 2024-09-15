@@ -19,7 +19,7 @@ class MainViewModel : ViewModel() {
     }
 
     private val random = Random()
-    val items: MutableLiveData<MutableList<Int>> = MutableLiveData(mutableListOf())
+    val items: MutableLiveData<MutableList<Cell>> = MutableLiveData(mutableListOf())
     val itemTypesCounter: MutableLiveData<MutableMap<Int, Int>> = MutableLiveData(mutableMapOf())
 
 
@@ -29,45 +29,64 @@ class MainViewModel : ViewModel() {
     }
 
     fun generateAndAddItem() {
-        val newItem = if (random.nextBoolean()) DEAD_CELL else LIVING_CELL
-        items.value?.add(newItem)
-        increaseMapItem(newItem)
-        items.postValue(items.value)
+        val newType = if (random.nextBoolean()) DEAD_CELL else LIVING_CELL
+        addCell(newType)
+        increaseMapItem(newType)
 
         checkNewLife()
         checkLifeDying()
 
         items.postValue(items.value)
-        Log.d(LOG_TAG, items.value.toString())
     }
+
+    fun addCell(type: Int) {
+        val newId = items.value?.size ?: 0
+        val newCell = Cell(id = newId, type = type)
+        val updatedList = items.value ?: mutableListOf()
+        Log.d(LOG_TAG, type.toString())
+        updatedList.add(newCell)
+        items.value = updatedList
+    }
+
 
     private fun checkNewLife() {
         if (items.value?.size!! >= SEQUENCE_FOR_LIFE &&
             items.value?.takeLast(SEQUENCE_FOR_LIFE)?.all
-            { it == LIVING_CELL } == true
+            { it.type == LIVING_CELL } == true
         ) {
 
             // Добавляем LIFE после трех LIVING_CELL
-            items.value?.add(LIFE)
+            addCell(LIFE)
             increaseMapItem(LIFE)
         }
     }
 
-    private fun checkLifeDying() {
-        if (items.value?.takeLast(SEQUENCE_FOR_LIFE_DELETE + 1)?.let { sublist ->
-                    sublist.first() != DEAD_CELL &&
-                    sublist.drop(1).all { it == DEAD_CELL }
-            } == true) {
 
-            // Удаляем последнюю LIFE после трех DEAD_CELL
-            val lastIndex = items.value?.lastIndexOf(LIFE)
-            if (lastIndex != null && lastIndex != -1) {
-                items.value!![lastIndex] = DEAD_LIFE
-                decreaseMapItem(LIFE)
-                increaseMapItem(DEAD_LIFE)
-            }
+
+private fun checkLifeDying() {
+    // Проверяем, есть ли в конце нужная последовательность
+    if (items.value?.takeLast(SEQUENCE_FOR_LIFE_DELETE + 1)?.let { sublist ->
+            sublist.first().type != DEAD_CELL &&
+                    sublist.drop(1).all { it.type == DEAD_CELL }
+        } == true) {
+
+        // Находим индекс последнего элемента с type == LIFE
+        val lastIndex = items.value?.indexOfLast { it.type == LIFE }
+        if (lastIndex != null && lastIndex != -1) {
+            // Создаем новый список, чтобы вызвать обновление LiveData
+            val updatedList = items.value!!.toMutableList()
+            // Заменяем элемент на новый с type = DEAD_LIFE, сохраняя уникальный id
+            val updatedCell = updatedList[lastIndex].copy(type = DEAD_LIFE)
+            updatedList[lastIndex] = updatedCell
+            // Обновляем LiveData новым списком
+            items.value = updatedList
+
+            // Обновляем счетчики
+            decreaseMapItem(LIFE)
+            increaseMapItem(DEAD_LIFE)
         }
     }
+}
 
     private fun increaseMapItem(key: Int) {
         val map = itemTypesCounter.value ?: mutableMapOf()
