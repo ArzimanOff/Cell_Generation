@@ -49,11 +49,11 @@ class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemViewHolder>() {
             MainViewModel.LIFE -> R.drawable.ic_new_life
             else -> R.drawable.ic_launcher_foreground
         }
-        if (itemType == MainViewModel.LIFE){
-            holder.itemView.animation = fadeInAnimation
-        } else {
-            holder.itemView.animation = null
-        }
+//        if (itemType == MainViewModel.LIFE){
+//            holder.itemView.animation = fadeInAnimation
+//        } else {
+//            holder.itemView.animation = null
+//        }
 
         holder.itemView.rootView.setBackgroundResource(itemBg as Int)
         holder.cellTextView.text = text

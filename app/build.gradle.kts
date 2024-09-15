@@ -37,11 +37,12 @@ android {
 
 dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
-
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
-
     implementation("androidx.activity:activity-ktx:1.7.2")
 
+    val lottieVersion = "6.5.2"
+    implementation("com.airbnb.android:lottie:$lottieVersion")
+    
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
