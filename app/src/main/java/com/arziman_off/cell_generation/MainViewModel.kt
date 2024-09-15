@@ -7,6 +7,7 @@ import java.util.Random
 
 class MainViewModel : ViewModel() {
     private val LOG_TAG = "NeedLogs"
+
     companion object {
         const val SEQUENCE_FOR_LIFE = 3
         const val SEQUENCE_FOR_LIFE_DELETE = 3
@@ -35,16 +36,20 @@ class MainViewModel : ViewModel() {
         items.postValue(items.value)
         Log.d(LOG_TAG, items.value.toString())
     }
+
     private fun checkNewLife() {
         if (items.value?.size!! >= SEQUENCE_FOR_LIFE &&
-            items.value?.takeLast(SEQUENCE_FOR_LIFE)?.all { it == 1 } == true) {
+            items.value?.takeLast(SEQUENCE_FOR_LIFE)?.all
+            { it == LIVING_CELL } == true) {
 
             // Добавляем LIFE после трех LIVING_CELL
             items.value?.add(LIFE)
         }
     }
+
     private fun checkLifeDying() {
-        if (items.value?.takeLast(SEQUENCE_FOR_LIFE_DELETE)?.all { it == 0 } == true) {
+        if (items.value?.takeLast(SEQUENCE_FOR_LIFE_DELETE)?.all
+            { it == DEAD_CELL } == true) {
 
             // Удаляем последнюю LIFE после трех DEAD_CELL
             val lastIndex = items.value?.lastIndexOf(LIFE)

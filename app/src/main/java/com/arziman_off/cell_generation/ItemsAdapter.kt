@@ -3,13 +3,13 @@ package com.arziman_off.cell_generation
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemViewHolder>() {
     private var items: List<Int> = listOf()
-
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val cellTextView: TextView = itemView.findViewById(R.id.cellTextView)
         val cellTextPostscript: TextView = itemView.findViewById(R.id.cellTextPostscript)
@@ -22,9 +22,10 @@ class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+        val fadeInAnimation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.fade_in)
         val itemType = items[position]
 
-        val itemBg : Comparable<*> = when (itemType) {
+        val itemBg: Comparable<*> = when (itemType) {
             MainViewModel.DEAD_CELL -> R.drawable.item_bg
             MainViewModel.LIVING_CELL -> R.drawable.item_bg
             MainViewModel.LIFE -> R.drawable.item_life_bg
@@ -42,11 +43,16 @@ class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemViewHolder>() {
             MainViewModel.LIFE -> "Ку-ку!"
             else -> "Unknown"
         }
-        val drawable : Comparable<*> = when (itemType) {
+        val drawable: Comparable<*> = when (itemType) {
             MainViewModel.DEAD_CELL -> R.drawable.ic_dead_cell
             MainViewModel.LIVING_CELL -> R.drawable.ic_live_cell
             MainViewModel.LIFE -> R.drawable.ic_new_life
             else -> R.drawable.ic_launcher_foreground
+        }
+        if (itemType == MainViewModel.LIFE){
+            holder.itemView.animation = fadeInAnimation
+        } else {
+            holder.itemView.animation = null
         }
 
         holder.itemView.rootView.setBackgroundResource(itemBg as Int)

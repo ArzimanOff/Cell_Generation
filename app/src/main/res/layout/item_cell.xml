@@ -21,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/cellTextPostscript"
 
-        tools:src="@drawable/high_reaction_icon"
+        tools:src="@drawable/ic_dead_cell"
         android:contentDescription="Иконка сущности"
         />
 
@@ -31,7 +31,6 @@
         android:layout_height="wrap_content"
 
         android:textSize="20sp"
-        android:textColor="@android:color/black"
 
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/cellIconView"

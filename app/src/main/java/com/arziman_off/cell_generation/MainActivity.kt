@@ -1,6 +1,7 @@
 package com.arziman_off.cell_generation
 
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,12 +12,12 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class MainActivity : AppCompatActivity() {
-    private val mainViewModel : MainViewModel by viewModels()
+    private val mainViewModel: MainViewModel by viewModels()
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ItemsAdapter
     private lateinit var generateButton: MaterialButton
-    private lateinit var deleteAllCells: ImageView
+    private lateinit var deleteAllCellsBtn: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +30,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
         mainViewModel.items.observe(this, Observer { items ->
+            if (items.toList().isEmpty()) {
+                deleteAllCellsBtn.visibility = View.GONE
+            } else {
+                deleteAllCellsBtn.visibility = View.VISIBLE
+            }
             adapter.submitList(items.toList())
             recyclerView.scrollToPosition(adapter.itemCount - 1)
         })
@@ -39,10 +45,10 @@ class MainActivity : AppCompatActivity() {
             mainViewModel.generateAndAddItem()
         }
 
-        deleteAllCells.setOnClickListener {
+        deleteAllCellsBtn.setOnClickListener {
             MaterialAlertDialogBuilder(this)
-                .setTitle("Подтверждение")
-                .setMessage("Удалить все сгенерированные клетки?")
+                .setTitle("Удалить все сгенерированные клетки?")
+                .setMessage("Очистится весь список, вернуть не получится")
                 .setPositiveButton("Да, удалить") { dialog, which ->
                     mainViewModel.deleteAll()
                 }
@@ -54,8 +60,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-
     private fun initViews() {
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -63,6 +67,6 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
         generateButton = findViewById(R.id.generateButton)
-        deleteAllCells = findViewById(R.id.deleteAllCells)
+        deleteAllCellsBtn = findViewById(R.id.deleteAllCellsBtn)
     }
 }
