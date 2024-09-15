@@ -39,8 +39,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         initViews();
+        mainViewModel.loadData()
         setEventListeners()
         observeViewModel()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mainViewModel.saveData()
     }
 
     private fun observeViewModel() {

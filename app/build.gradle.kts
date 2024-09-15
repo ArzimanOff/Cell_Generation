@@ -42,7 +42,7 @@ dependencies {
 
     val lottieVersion = "6.5.2"
     implementation("com.airbnb.android:lottie:$lottieVersion")
-    
+    implementation("com.google.code.gson:gson:2.9.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

@@ -1,11 +1,17 @@
 package com.arziman_off.cell_generation
 
+import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.util.Random
 
-class MainViewModel : ViewModel() {
+class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val LOG_TAG = "NeedLogs"
 
     companion object {
@@ -16,12 +22,35 @@ class MainViewModel : ViewModel() {
         const val LIVING_CELL = 1
         const val LIFE = 2
         const val DEAD_LIFE = 3
+
+        const val PREFS_NAME = "app_prefs"
+        const val KEY_ITEMS = "key_items"
+        const val KEY_ITEM_TYPES_COUNTER = "key_item_types_counter"
     }
+
+    private val sharedPreferences: SharedPreferences =
+        getApplication<Application>()
+        .getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+
 
     private val random = Random()
     val items: MutableLiveData<MutableList<Cell>> = MutableLiveData(mutableListOf())
     val itemTypesCounter: MutableLiveData<MutableMap<Int, Int>> = MutableLiveData(mutableMapOf())
 
+    fun saveData() {
+        val editor = sharedPreferences.edit()
+        editor.putString(KEY_ITEMS, Gson().toJson(items.value))
+        editor.putString(KEY_ITEM_TYPES_COUNTER, Gson().toJson(itemTypesCounter.value))
+        editor.apply()
+    }
+
+    fun loadData() {
+        val itemsJson = sharedPreferences.getString(KEY_ITEMS, null)
+        val counterJson = sharedPreferences.getString(KEY_ITEM_TYPES_COUNTER, null)
+
+        items.value = Gson().fromJson(itemsJson, Array<Cell>::class.java)?.toMutableList() ?: mutableListOf()
+        itemTypesCounter.value = Gson().fromJson(counterJson, object : TypeToken<MutableMap<Int, Int>>() {}.type) ?: mutableMapOf()
+    }
 
     fun deleteAll() {
         items.postValue(mutableListOf())
