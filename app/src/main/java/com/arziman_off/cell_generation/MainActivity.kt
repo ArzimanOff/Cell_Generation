@@ -22,17 +22,17 @@ class MainActivity : AppCompatActivity() {
 
     private val mainViewModel: MainViewModel by viewModels()
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: ItemsAdapter
-    private lateinit var generateButton: MaterialButton
-    private lateinit var deleteAllCellsBtn: ImageButton
-    private lateinit var emptyListPlaceholder: LinearLayout
-    private lateinit var placeholderAnim: LottieAnimationView
+    private var recyclerView: RecyclerView? = null
+    private val adapter: ItemsAdapter by lazy { ItemsAdapter() }
+    private var generateButton: MaterialButton? = null
+    private var deleteAllCellsBtn: ImageButton? = null
+    private var emptyListPlaceholder: LinearLayout? = null
+    private var placeholderAnim: LottieAnimationView? = null
 
-    private lateinit var tv_live_cells_cnt: TextView
-    private lateinit var tv_dead_cells_cnt: TextView
-    private lateinit var tv_new_life_cnt: TextView
-    private lateinit var tv_dead_life_cnt: TextView
+    private var tv_live_cells_cnt: TextView? = null
+    private var tv_dead_cells_cnt: TextView? = null
+    private var tv_new_life_cnt: TextView? = null
+    private var tv_dead_life_cnt: TextView? = null
 
 
 
@@ -48,32 +48,32 @@ class MainActivity : AppCompatActivity() {
     private fun observeViewModel() {
         mainViewModel.items.observe(this, Observer { items ->
             if (items.toList().isEmpty()) {
-                deleteAllCellsBtn.visibility = View.GONE
-                emptyListPlaceholder.visibility = View.VISIBLE
-                placeholderAnim.playAnimation()
+                deleteAllCellsBtn?.visibility  = View.GONE
+                emptyListPlaceholder?.visibility = View.VISIBLE
+                placeholderAnim?.playAnimation()
             } else {
-                deleteAllCellsBtn.visibility = View.VISIBLE
-                emptyListPlaceholder.visibility = View.GONE
-                placeholderAnim.pauseAnimation()
+                deleteAllCellsBtn?.visibility = View.VISIBLE
+                emptyListPlaceholder?.visibility = View.GONE
+                placeholderAnim?.pauseAnimation()
             }
             adapter.submitList(items.toList())
-            recyclerView.scrollToPosition(adapter.itemCount - 1)
+            recyclerView?.scrollToPosition(adapter.itemCount - 1)
         })
 
         mainViewModel.itemTypesCounter.observe(this, Observer {
-            tv_live_cells_cnt.text = (it[MainViewModel.LIVING_CELL] ?: 0).toString()
-            tv_dead_cells_cnt.text = (it[MainViewModel.DEAD_CELL] ?: 0).toString()
-            tv_new_life_cnt.text = (it[MainViewModel.LIFE] ?: 0).toString()
-            tv_dead_life_cnt.text = (it[MainViewModel.DEAD_LIFE] ?: 0).toString()
+            tv_live_cells_cnt?.text = (it[MainViewModel.LIVING_CELL] ?: 0).toString()
+            tv_dead_cells_cnt?.text = (it[MainViewModel.DEAD_CELL] ?: 0).toString()
+            tv_new_life_cnt?.text = (it[MainViewModel.LIFE] ?: 0).toString()
+            tv_dead_life_cnt?.text = (it[MainViewModel.DEAD_LIFE] ?: 0).toString()
         })
     }
 
     private fun setEventListeners() {
-        generateButton.setOnClickListener {
+        generateButton?.setOnClickListener {
             mainViewModel.generateAndAddItem()
         }
 
-        deleteAllCellsBtn.setOnClickListener {
+        deleteAllCellsBtn?.setOnClickListener {
             MaterialAlertDialogBuilder(this)
                 .setTitle("Удалить все сгенерированные клетки?")
                 .setMessage("Очистится весь список, вернуть не получится")
@@ -90,9 +90,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViews() {
         recyclerView = findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = ItemsAdapter()
-        recyclerView.adapter = adapter
+        recyclerView?.layoutManager = LinearLayoutManager(this)
+        recyclerView?.adapter = adapter
 
         tv_live_cells_cnt = findViewById(R.id.tv_live_cells_cnt)
         tv_dead_cells_cnt = findViewById(R.id.tv_dead_cells_cnt)
@@ -105,9 +104,9 @@ class MainActivity : AppCompatActivity() {
         emptyListPlaceholder = findViewById(R.id.emptyListPlaceholder)
 
         placeholderAnim = findViewById(R.id.placeholderAnim)
-        placeholderAnim.setMinProgress(0.0f)
-        placeholderAnim.setMaxProgress(1.0f)
-        placeholderAnim.repeatCount = LottieDrawable.INFINITE
-        placeholderAnim.repeatMode = LottieDrawable.RESTART
+        placeholderAnim?.setMinProgress(0.0f)
+        placeholderAnim?.setMaxProgress(1.0f)
+        placeholderAnim?.repeatCount = LottieDrawable.INFINITE
+        placeholderAnim?.repeatMode = LottieDrawable.RESTART
     }
 }
