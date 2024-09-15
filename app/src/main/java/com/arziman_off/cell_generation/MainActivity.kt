@@ -3,6 +3,7 @@ package com.arziman_off.cell_generation
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ItemsAdapter
     private lateinit var generateButton: MaterialButton
-    private lateinit var deleteAllCellsBtn: ImageView
+    private lateinit var deleteAllCellsBtn: ImageButton
     private lateinit var emptyListPlaceholder: LinearLayout
     private lateinit var placeholderAnim: LottieAnimationView
 
