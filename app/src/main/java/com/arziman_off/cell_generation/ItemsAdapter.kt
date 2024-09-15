@@ -19,30 +19,46 @@ class ItemsAdapter : ListAdapter<Cell, ItemsAdapter.ViewHolder>(DiffCallback()) 
         fun bind(cell: Cell) {
             val text: String = when (cell.type) {
                 MainViewModel.DEAD_CELL -> "Мертвая клетка"
+                MainViewModel.SPEC_DEAD_CELL -> "Мертвая клетка"
+
                 MainViewModel.LIVING_CELL -> "Живая клетка"
+                MainViewModel.SPEC_LIVING_CELL -> "Живая клетка"
+
                 MainViewModel.LIFE -> "Жизнь!"
                 MainViewModel.DEAD_LIFE -> "Погибшая жизнь"
                 else -> "Unknown"
             }
             val textPostscript: String = when (cell.type) {
                 MainViewModel.DEAD_CELL -> "или прикидывается"
+                MainViewModel.SPEC_DEAD_CELL -> "или прикидывается"
+
                 MainViewModel.LIVING_CELL -> "и шевелится!"
+                MainViewModel.SPEC_LIVING_CELL -> "и шевелится!"
+
                 MainViewModel.LIFE -> "Ку-ку!"
                 MainViewModel.DEAD_LIFE -> "Уже не ку-ку :("
                 else -> "Unknown"
             }
             val drawable: Comparable<*> = when (cell.type) {
                 MainViewModel.DEAD_CELL -> R.drawable.ic_dead_cell
+                MainViewModel.SPEC_DEAD_CELL -> R.drawable.ic_dead_cell
+
                 MainViewModel.LIVING_CELL -> R.drawable.ic_live_cell
+                MainViewModel.SPEC_LIVING_CELL -> R.drawable.ic_live_cell
+
                 MainViewModel.LIFE -> R.drawable.ic_new_life
                 MainViewModel.DEAD_LIFE -> R.drawable.ic_dead_life_cell
                 else -> R.drawable.ic_launcher_foreground
             }
             val itemBg: Comparable<*> = when (cell.type) {
                 MainViewModel.DEAD_CELL -> R.drawable.item_bg
+                MainViewModel.SPEC_DEAD_CELL -> R.drawable.item_spec_dead_cell_bg
+
                 MainViewModel.LIVING_CELL -> R.drawable.item_bg
-                MainViewModel.LIFE -> R.drawable.item_life_bg
+                MainViewModel.SPEC_LIVING_CELL -> R.drawable.item_life_bg
+
                 MainViewModel.DEAD_LIFE -> R.drawable.item_dead_life_bg
+                MainViewModel.LIFE -> R.drawable.item_life_bg
                 else -> R.drawable.item_bg
             }
 

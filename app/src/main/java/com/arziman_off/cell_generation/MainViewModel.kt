@@ -20,6 +20,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
         const val DEAD_CELL = 0
         const val LIVING_CELL = 1
+
+        const val SPEC_DEAD_CELL = 10
+        const val SPEC_LIVING_CELL = 11
+
         const val LIFE = 2
         const val DEAD_LIFE = 3
 
@@ -84,6 +88,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             { it.type == LIVING_CELL } == true
         ) {
 
+            items.value?.let { currentList ->
+                val updatedList = currentList.toMutableList().apply {
+                    val lastThreeIndices = size - SEQUENCE_FOR_LIFE until size
+                    lastThreeIndices.forEach { index ->
+                        val cell = this[index]
+                        this[index] = cell.copy(type = SPEC_LIVING_CELL)
+                    }
+                }
+                items.value = updatedList
+            }
+
             // Добавляем LIFE после трех LIVING_CELL
             addCell(LIFE)
             increaseMapItem(LIFE)
@@ -93,24 +108,30 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
 
 private fun checkLifeDying() {
-    // Проверяем, есть ли в конце нужная последовательность
     if (items.value?.takeLast(SEQUENCE_FOR_LIFE_DELETE + 1)?.let { sublist ->
             sublist.first().type != DEAD_CELL &&
                     sublist.drop(1).all { it.type == DEAD_CELL }
         } == true) {
 
-        // Находим индекс последнего элемента с type == LIFE
         val lastIndex = items.value?.indexOfLast { it.type == LIFE }
         if (lastIndex != null && lastIndex != -1) {
-            // Создаем новый список, чтобы вызвать обновление LiveData
+
+            items.value?.let { currentList ->
+                val updatedList = currentList.toMutableList().apply {
+                    val lastThreeIndices = size - SEQUENCE_FOR_LIFE until size
+                    lastThreeIndices.forEach { index ->
+                        val cell = this[index]
+                        this[index] = cell.copy(type = SPEC_DEAD_CELL)
+                    }
+                }
+                items.value = updatedList
+            }
+
             val updatedList = items.value!!.toMutableList()
-            // Заменяем элемент на новый с type = DEAD_LIFE, сохраняя уникальный id
             val updatedCell = updatedList[lastIndex].copy(type = DEAD_LIFE)
             updatedList[lastIndex] = updatedCell
-            // Обновляем LiveData новым списком
             items.value = updatedList
 
-            // Обновляем счетчики
             decreaseMapItem(LIFE)
             increaseMapItem(DEAD_LIFE)
         }

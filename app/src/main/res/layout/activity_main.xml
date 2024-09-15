@@ -28,7 +28,7 @@
             android:paddingVertical="16dp"
             android:text="Клеточное наполнение"
             android:textAlignment="center"
-            android:textSize="14sp"
+            android:textSize="12sp"
 
             android:textStyle="bold"
             />

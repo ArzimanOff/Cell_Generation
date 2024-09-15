@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     private var tv_dead_cells_cnt: TextView? = null
     private var tv_new_life_cnt: TextView? = null
     private var tv_dead_life_cnt: TextView? = null
+    private var title: TextView? = null
 
 
 
@@ -92,6 +93,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 .show()
         }
+        title?.setOnClickListener {
+            recyclerView?.smoothScrollToPosition(0)
+        }
     }
 
 
@@ -104,6 +108,7 @@ class MainActivity : AppCompatActivity() {
         tv_dead_cells_cnt = findViewById(R.id.tv_dead_cells_cnt)
         tv_new_life_cnt = findViewById(R.id.tv_new_life_cnt)
         tv_dead_life_cnt = findViewById(R.id.tv_dead_life_cnt)
+        title = findViewById(R.id.title)
 
         generateButton = findViewById(R.id.generateButton)
         deleteAllCellsBtn = findViewById(R.id.deleteAllCellsBtn)
