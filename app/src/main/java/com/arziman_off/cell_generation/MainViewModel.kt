@@ -15,6 +15,7 @@ class MainViewModel : ViewModel() {
         const val DEAD_CELL = 0
         const val LIVING_CELL = 1
         const val LIFE = 2
+        const val DEAD_LIFE = 3
     }
 
     private val random = Random()
@@ -54,7 +55,7 @@ class MainViewModel : ViewModel() {
             // Удаляем последнюю LIFE после трех DEAD_CELL
             val lastIndex = items.value?.lastIndexOf(LIFE)
             if (lastIndex != null && lastIndex != -1) {
-                items.value?.removeAt(lastIndex)
+                items.value!![lastIndex] =  DEAD_LIFE
             }
         }
     }

@@ -22,38 +22,36 @@ class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val fadeInAnimation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.fade_in)
         val itemType = items[position]
 
         val itemBg: Comparable<*> = when (itemType) {
             MainViewModel.DEAD_CELL -> R.drawable.item_bg
             MainViewModel.LIVING_CELL -> R.drawable.item_bg
             MainViewModel.LIFE -> R.drawable.item_life_bg
+            MainViewModel.DEAD_LIFE -> R.drawable.item_dead_life_bg
             else -> R.drawable.item_bg
         }
         val text = when (itemType) {
             MainViewModel.DEAD_CELL -> "Мертвая клетка"
             MainViewModel.LIVING_CELL -> "Живая клетка"
             MainViewModel.LIFE -> "Жизнь!"
+            MainViewModel.DEAD_LIFE -> "Погибшая жизнь"
             else -> "Unknown"
         }
         val textPostscript = when (itemType) {
             MainViewModel.DEAD_CELL -> "или прикидывается"
             MainViewModel.LIVING_CELL -> "и шевелится!"
             MainViewModel.LIFE -> "Ку-ку!"
+            MainViewModel.DEAD_LIFE -> "Уже не ку-ку :("
             else -> "Unknown"
         }
         val drawable: Comparable<*> = when (itemType) {
             MainViewModel.DEAD_CELL -> R.drawable.ic_dead_cell
             MainViewModel.LIVING_CELL -> R.drawable.ic_live_cell
             MainViewModel.LIFE -> R.drawable.ic_new_life
+            MainViewModel.DEAD_LIFE -> R.drawable.ic_dead_life_cell
             else -> R.drawable.ic_launcher_foreground
         }
-//        if (itemType == MainViewModel.LIFE){
-//            holder.itemView.animation = fadeInAnimation
-//        } else {
-//            holder.itemView.animation = null
-//        }
 
         holder.itemView.rootView.setBackgroundResource(itemBg as Int)
         holder.cellTextView.text = text
