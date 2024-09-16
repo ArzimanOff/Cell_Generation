@@ -34,7 +34,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val sharedPreferences: SharedPreferences =
         getApplication<Application>()
-        .getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
 
     private val random = Random()
@@ -52,8 +52,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val itemsJson = sharedPreferences.getString(KEY_ITEMS, null)
         val counterJson = sharedPreferences.getString(KEY_ITEM_TYPES_COUNTER, null)
 
-        items.value = Gson().fromJson(itemsJson, Array<Cell>::class.java)?.toMutableList() ?: mutableListOf()
-        itemTypesCounter.value = Gson().fromJson(counterJson, object : TypeToken<MutableMap<Int, Int>>() {}.type) ?: mutableMapOf()
+        items.value =
+            Gson().fromJson(itemsJson, Array<Cell>::class.java)?.toMutableList() ?: mutableListOf()
+        itemTypesCounter.value =
+            Gson().fromJson(counterJson, object : TypeToken<MutableMap<Int, Int>>() {}.type)
+                ?: mutableMapOf()
     }
 
     fun deleteAll() {
@@ -106,37 +109,37 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
 
+    private fun checkLifeDying() {
+        if (items.value?.takeLast(SEQUENCE_FOR_LIFE_DELETE + 1)?.let { sublist ->
+                sublist.first().type != DEAD_CELL &&
+                        sublist.drop(1).all { it.type == DEAD_CELL }
+            } == true) {
 
-private fun checkLifeDying() {
-    if (items.value?.takeLast(SEQUENCE_FOR_LIFE_DELETE + 1)?.let { sublist ->
-            sublist.first().type != DEAD_CELL &&
-                    sublist.drop(1).all { it.type == DEAD_CELL }
-        } == true) {
+            val lastIndex = items.value?.indexOfLast { it.type == LIFE }
+            if (lastIndex != null && lastIndex != -1) {
 
-        val lastIndex = items.value?.indexOfLast { it.type == LIFE }
-        if (lastIndex != null && lastIndex != -1) {
-
-            items.value?.let { currentList ->
-                val updatedList = currentList.toMutableList().apply {
-                    val lastThreeIndices = size - SEQUENCE_FOR_LIFE until size
-                    lastThreeIndices.forEach { index ->
-                        val cell = this[index]
-                        this[index] = cell.copy(type = SPEC_DEAD_CELL, deadLifePosition = lastIndex)
+                items.value?.let { currentList ->
+                    val updatedList = currentList.toMutableList().apply {
+                        val lastThreeIndices = size - SEQUENCE_FOR_LIFE until size
+                        lastThreeIndices.forEach { index ->
+                            val cell = this[index]
+                            this[index] =
+                                cell.copy(type = SPEC_DEAD_CELL, deadLifePosition = lastIndex)
+                        }
                     }
+                    items.value = updatedList
                 }
+
+                val updatedList = items.value!!.toMutableList()
+                val updatedCell = updatedList[lastIndex].copy(type = DEAD_LIFE)
+                updatedList[lastIndex] = updatedCell
                 items.value = updatedList
+
+                decreaseMapItem(LIFE)
+                increaseMapItem(DEAD_LIFE)
             }
-
-            val updatedList = items.value!!.toMutableList()
-            val updatedCell = updatedList[lastIndex].copy(type = DEAD_LIFE)
-            updatedList[lastIndex] = updatedCell
-            items.value = updatedList
-
-            decreaseMapItem(LIFE)
-            increaseMapItem(DEAD_LIFE)
         }
     }
-}
 
     private fun increaseMapItem(key: Int) {
         val map = itemTypesCounter.value ?: mutableMapOf()

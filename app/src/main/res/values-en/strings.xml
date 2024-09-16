@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cell_Generation</string>
+    <string name="delete_all_cells_dialog_title_text">Delete all generated cells?</string>
+    <string name="delete_all_cells_dialog_msg_text">The entire list will be cleared, you will not be able to return it</string>
+    <string name="delete_all_cells_dialog_positive_btn_text">Yes, delete</string>
+    <string name="delete_all_cells_dialog_negative_btn_text">No, cancel</string>
+    <string name="dead_cell_title_text">A dead cell</string>
+    <string name="live_cell_title_text">A living cell</string>
+    <string name="life_title_text">Life!</string>
+    <string name="dead_life_title_text">Lost life</string>
+    <string name="dead_cell_postcript_text">or pretending to be</string>
+    <string name="live_cell_postcript_text">and it\'s moving!</string>
+    <string name="life_cell_postcript_text">Peek-a-boo!</string>
+    <string name="dead_life_cell_postcript_text">Not peek-a-boo anymore :(</string>
+</resources>

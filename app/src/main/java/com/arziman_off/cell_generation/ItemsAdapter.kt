@@ -21,25 +21,25 @@ class ItemsAdapter : ListAdapter<Cell, ItemsAdapter.ViewHolder>(DiffCallback()) 
         private val cellIconView: ImageView = itemView.findViewById(R.id.cellIconView)
         fun bind(cell: Cell) {
             val text: String = when (cell.type) {
-                MainViewModel.DEAD_CELL -> "Мертвая клетка"
-                MainViewModel.SPEC_DEAD_CELL -> "Мертвая клетка"
+                MainViewModel.DEAD_CELL -> itemView.context.getString(R.string.dead_cell_title_text)
+                MainViewModel.SPEC_DEAD_CELL -> itemView.context.getString(R.string.dead_cell_title_text)
 
-                MainViewModel.LIVING_CELL -> "Живая клетка"
-                MainViewModel.SPEC_LIVING_CELL -> "Живая клетка"
+                MainViewModel.LIVING_CELL -> itemView.context.getString(R.string.live_cell_title_text)
+                MainViewModel.SPEC_LIVING_CELL -> itemView.context.getString(R.string.live_cell_title_text)
 
-                MainViewModel.LIFE -> "Жизнь!"
-                MainViewModel.DEAD_LIFE -> "Погибшая жизнь"
+                MainViewModel.LIFE -> itemView.context.getString(R.string.life_title_text)
+                MainViewModel.DEAD_LIFE -> itemView.context.getString(R.string.dead_life_title_text)
                 else -> "Unknown"
             }
             val textPostscript: String = when (cell.type) {
-                MainViewModel.DEAD_CELL -> "или прикидывается"
-                MainViewModel.SPEC_DEAD_CELL -> "или прикидывается"
+                MainViewModel.DEAD_CELL -> itemView.context.getString(R.string.dead_cell_postcript_text)
+                MainViewModel.SPEC_DEAD_CELL -> itemView.context.getString(R.string.dead_cell_postcript_text)
 
-                MainViewModel.LIVING_CELL -> "и шевелится!"
-                MainViewModel.SPEC_LIVING_CELL -> "и шевелится!"
+                MainViewModel.LIVING_CELL -> itemView.context.getString(R.string.live_cell_postcript_text)
+                MainViewModel.SPEC_LIVING_CELL -> itemView.context.getString(R.string.live_cell_postcript_text)
 
-                MainViewModel.LIFE -> "Ку-ку!"
-                MainViewModel.DEAD_LIFE -> "Уже не ку-ку :("
+                MainViewModel.LIFE -> itemView.context.getString(R.string.life_cell_postcript_text)
+                MainViewModel.DEAD_LIFE -> itemView.context.getString(R.string.dead_life_cell_postcript_text)
                 else -> "Unknown"
             }
             val drawable: Comparable<*> = when (cell.type) {
@@ -96,12 +96,10 @@ class ItemsAdapter : ListAdapter<Cell, ItemsAdapter.ViewHolder>(DiffCallback()) 
 
     class DiffCallback : DiffUtil.ItemCallback<Cell>() {
         override fun areItemsTheSame(oldItem: Cell, newItem: Cell): Boolean {
-            // Сравнивайте элементы по их уникальным id
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Cell, newItem: Cell): Boolean {
-            // Сравнивайте элементы по содержимому
             return oldItem == newItem
         }
     }

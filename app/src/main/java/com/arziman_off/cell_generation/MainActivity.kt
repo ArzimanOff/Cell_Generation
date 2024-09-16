@@ -83,12 +83,12 @@ class MainActivity : AppCompatActivity() {
 
         deleteAllCellsBtn?.setOnClickListener {
             MaterialAlertDialogBuilder(this)
-                .setTitle("Удалить все сгенерированные клетки?")
-                .setMessage("Очистится весь список, вернуть не получится")
-                .setPositiveButton("Да, удалить") { dialog, which ->
+                .setTitle(getString(R.string.delete_all_cells_dialog_title_text))
+                .setMessage(getString(R.string.delete_all_cells_dialog_msg_text))
+                .setPositiveButton(getString(R.string.delete_all_cells_dialog_positive_btn_text)) { dialog, which ->
                     mainViewModel.deleteAll()
                 }
-                .setNegativeButton("Нет, отмена") { dialog, which ->
+                .setNegativeButton(getString(R.string.delete_all_cells_dialog_negative_btn_text)) { dialog, which ->
                     dialog.dismiss()
                 }
                 .show()

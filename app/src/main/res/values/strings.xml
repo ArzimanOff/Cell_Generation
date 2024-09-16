@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Cell_Generation</string>
+    <string name="delete_all_cells_dialog_title_text">Удалить все сгенерированные клетки?</string>
+    <string name="delete_all_cells_dialog_msg_text">Очистится весь список, вернуть не получится</string>
+    <string name="delete_all_cells_dialog_positive_btn_text">Да, удалить</string>
+    <string name="delete_all_cells_dialog_negative_btn_text">Нет, отмена</string>
+    <string name="dead_cell_title_text">Мертвая клетка</string>
+    <string name="live_cell_title_text">Живая клетка</string>
+    <string name="life_title_text">Жизнь!</string>
+    <string name="dead_life_title_text">Погибшая жизнь</string>
+    <string name="dead_cell_postcript_text">или прикидывается</string>
+    <string name="live_cell_postcript_text">и шевелится!</string>
+    <string name="life_cell_postcript_text">Ку-ку!</string>
+    <string name="dead_life_cell_postcript_text">Уже не ку-ку :(</string>
 </resources>
