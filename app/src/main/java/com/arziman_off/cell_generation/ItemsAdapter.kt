@@ -11,11 +11,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
 class ItemsAdapter : ListAdapter<Cell, ItemsAdapter.ViewHolder>(DiffCallback()) {
+    private var listener: OnItemClickListener? = null
+
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val cellTextView: TextView = itemView.findViewById(R.id.cellTextView)
-        val cellTextPostscript: TextView = itemView.findViewById(R.id.cellTextPostscript)
-        val cellIconView: ImageView = itemView.findViewById(R.id.cellIconView)
+        private val cellTextView: TextView = itemView.findViewById(R.id.cellTextView)
+        private val cellIdText: TextView = itemView.findViewById(R.id.cellIdText)
+        private val cellTextPostscript: TextView = itemView.findViewById(R.id.cellTextPostscript)
+        private val cellIconView: ImageView = itemView.findViewById(R.id.cellIconView)
         fun bind(cell: Cell) {
             val text: String = when (cell.type) {
                 MainViewModel.DEAD_CELL -> "Мертвая клетка"
@@ -67,6 +70,7 @@ class ItemsAdapter : ListAdapter<Cell, ItemsAdapter.ViewHolder>(DiffCallback()) 
                 itemView.animation = fadeInAnimation
             }
 
+            cellIdText.text = String.format("#${cell.id + 1}")
             cellTextView.text = text
             cellTextPostscript.text = textPostscript
             cellIconView.setImageResource(drawable as Int)
@@ -81,6 +85,11 @@ class ItemsAdapter : ListAdapter<Cell, ItemsAdapter.ViewHolder>(DiffCallback()) 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val cell = getItem(position)
+        if (cell.type == MainViewModel.SPEC_DEAD_CELL && cell.deadLifePosition != -1){
+            holder.itemView.rootView.setOnClickListener {
+                listener?.onClick(cell.deadLifePosition)
+            }
+        }
         holder.bind(cell)
     }
 
@@ -96,4 +105,14 @@ class ItemsAdapter : ListAdapter<Cell, ItemsAdapter.ViewHolder>(DiffCallback()) 
             return oldItem == newItem
         }
     }
+
+    interface OnItemClickListener {
+        fun onClick(position: Int)
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.listener = listener
+    }
+
+
 }

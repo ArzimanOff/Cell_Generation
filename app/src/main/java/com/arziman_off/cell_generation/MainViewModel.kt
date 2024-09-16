@@ -74,7 +74,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun addCell(type: Int) {
         val newId = items.value?.size ?: 0
-        val newCell = Cell(id = newId, type = type)
+        val newCell = Cell(id = newId, type = type, deadLifePosition = -1)
         val updatedList = items.value ?: mutableListOf()
         Log.d(LOG_TAG, type.toString())
         updatedList.add(newCell)
@@ -121,7 +121,7 @@ private fun checkLifeDying() {
                     val lastThreeIndices = size - SEQUENCE_FOR_LIFE until size
                     lastThreeIndices.forEach { index ->
                         val cell = this[index]
-                        this[index] = cell.copy(type = SPEC_DEAD_CELL)
+                        this[index] = cell.copy(type = SPEC_DEAD_CELL, deadLifePosition = lastIndex)
                     }
                 }
                 items.value = updatedList

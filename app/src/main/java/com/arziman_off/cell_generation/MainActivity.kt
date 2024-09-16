@@ -27,10 +27,10 @@ class MainActivity : AppCompatActivity() {
     private var emptyListPlaceholder: LinearLayout? = null
     private var placeholderAnim: LottieAnimationView? = null
 
-    private var tv_live_cells_cnt: TextView? = null
-    private var tv_dead_cells_cnt: TextView? = null
-    private var tv_new_life_cnt: TextView? = null
-    private var tv_dead_life_cnt: TextView? = null
+    private var tvLiveCellsCnt: TextView? = null
+    private var tvDeadCellsCnt: TextView? = null
+    private var tvNewLifeCnt: TextView? = null
+    private var tvDeadLifeCnt: TextView? = null
     private var title: TextView? = null
 
 
@@ -51,9 +51,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        mainViewModel.items.observe(this, Observer { items ->
+        mainViewModel.items.observe(this) { items ->
             if (items.toList().isEmpty()) {
-                deleteAllCellsBtn?.visibility  = View.GONE
+                deleteAllCellsBtn?.visibility = View.GONE
                 emptyListPlaceholder?.visibility = View.VISIBLE
                 placeholderAnim?.playAnimation()
             } else {
@@ -66,14 +66,14 @@ class MainActivity : AppCompatActivity() {
                     recyclerView?.scrollToPosition(adapter.itemCount - 1)
                 }
             }
-        })
+        }
 
-        mainViewModel.itemTypesCounter.observe(this, Observer {
-            tv_live_cells_cnt?.text = (it[MainViewModel.LIVING_CELL] ?: 0).toString()
-            tv_dead_cells_cnt?.text = (it[MainViewModel.DEAD_CELL] ?: 0).toString()
-            tv_new_life_cnt?.text = (it[MainViewModel.LIFE] ?: 0).toString()
-            tv_dead_life_cnt?.text = (it[MainViewModel.DEAD_LIFE] ?: 0).toString()
-        })
+        mainViewModel.itemTypesCounter.observe(this) {
+            tvLiveCellsCnt?.text = (it[MainViewModel.LIVING_CELL] ?: 0).toString()
+            tvDeadCellsCnt?.text = (it[MainViewModel.DEAD_CELL] ?: 0).toString()
+            tvNewLifeCnt?.text = (it[MainViewModel.LIFE] ?: 0).toString()
+            tvDeadLifeCnt?.text = (it[MainViewModel.DEAD_LIFE] ?: 0).toString()
+        }
     }
 
     private fun setEventListeners() {
@@ -96,6 +96,13 @@ class MainActivity : AppCompatActivity() {
         title?.setOnClickListener {
             recyclerView?.smoothScrollToPosition(0)
         }
+
+        adapter.setOnItemClickListener(object : ItemsAdapter.OnItemClickListener {
+            override fun onClick(position: Int) {
+                recyclerView?.smoothScrollToPosition(position)
+            }
+        })
+
     }
 
 
@@ -104,10 +111,10 @@ class MainActivity : AppCompatActivity() {
         recyclerView?.layoutManager = LinearLayoutManager(this)
         recyclerView?.adapter = adapter
 
-        tv_live_cells_cnt = findViewById(R.id.tv_live_cells_cnt)
-        tv_dead_cells_cnt = findViewById(R.id.tv_dead_cells_cnt)
-        tv_new_life_cnt = findViewById(R.id.tv_new_life_cnt)
-        tv_dead_life_cnt = findViewById(R.id.tv_dead_life_cnt)
+        tvLiveCellsCnt = findViewById(R.id.tv_live_cells_cnt)
+        tvDeadCellsCnt = findViewById(R.id.tv_dead_cells_cnt)
+        tvNewLifeCnt = findViewById(R.id.tv_new_life_cnt)
+        tvDeadLifeCnt = findViewById(R.id.tv_dead_life_cnt)
         title = findViewById(R.id.title)
 
         generateButton = findViewById(R.id.generateButton)
