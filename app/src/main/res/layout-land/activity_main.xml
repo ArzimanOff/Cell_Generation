@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingVertical="16dp"
-            android:text="Клеточное наполнение"
+            android:text="@string/app_bar_text"
             android:textAlignment="center"
             android:textSize="14sp"
 
@@ -42,7 +42,7 @@
         android:layout_margin="16dp"
 
 
-        android:text="Сотворить"
+        android:text="@string/generate_btn_text"
 
         app:icon="@drawable/add_icon"
         android:textSize="20sp"
@@ -75,7 +75,7 @@
         app:layout_constraintStart_toEndOf="@id/recyclerView"
         app:layout_constraintTop_toBottomOf="@id/screenTitle"
 
-        android:contentDescription="Кнопка для удаление всех сгенерированных сущностей"
+        android:contentDescription="@string/generate_btn_description_text"
         android:visibility="gone"
         tools:visibility="visible"
         />
@@ -244,7 +244,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:paddingHorizontal="48dp"
-            android:text="Список клеток пуст, похоже вы еще ничего не создали, исправьте это!"
+            android:text="@string/empty_cells_list_placeholder_text"
             android:textSize="18sp"
             android:textAlignment="center"
             android:textStyle="bold"

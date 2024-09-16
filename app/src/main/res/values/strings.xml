@@ -12,4 +12,9 @@
     <string name="live_cell_postcript_text">и шевелится!</string>
     <string name="life_cell_postcript_text">Ку-ку!</string>
     <string name="dead_life_cell_postcript_text">Уже не ку-ку :(</string>
+    <string name="generate_btn_text">Сотворить</string>
+    <string name="generate_btn_description_text">Кнопка для удаление всех сгенерированных сущностей</string>
+    <string name="empty_cells_list_placeholder_text">Список клеток пуст, похоже вы еще ничего не создали, исправьте это!</string>
+    <string name="app_bar_text">Клеточное наполнение</string>
+    <string name="cell_icon_description">Иконка сущности</string>
 </resources>

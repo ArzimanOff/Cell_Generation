@@ -13,4 +13,9 @@
     <string name="live_cell_postcript_text">and it\'s moving!</string>
     <string name="life_cell_postcript_text">Peek-a-boo!</string>
     <string name="dead_life_cell_postcript_text">Not peek-a-boo anymore :(</string>
+    <string name="generate_btn_text">Create</string>
+    <string name="generate_btn_description_text">A button to delete all generated entities</string>
+    <string name="empty_cells_list_placeholder_text">The list of cells is empty, it looks like you haven\'t created anything yet, fix it!</string>
+    <string name="app_bar_text">Cellular filling</string>
+    <string name="cell_icon_description">Entity Icon</string>
 </resources>

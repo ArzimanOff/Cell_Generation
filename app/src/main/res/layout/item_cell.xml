@@ -24,7 +24,7 @@
         app:layout_constraintBottom_toBottomOf="@id/cellTextPostscript"
 
         tools:src="@drawable/ic_dead_cell"
-        android:contentDescription="Иконка сущности"
+        android:contentDescription="@string/cell_icon_description"
         />
 
 
